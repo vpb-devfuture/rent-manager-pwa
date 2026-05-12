@@ -1,0 +1,15 @@
+{
+  "name": "Rent Manager - Quản lý nhà trọ",
+  "short_name": "Rent Manager",
+  "description": "Quản lý nhà trọ, phòng và tiền thuê hàng tháng. Đồng bộ Google Drive.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icons/icon128.png", "sizes": "128x128", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon128.png", "sizes": "128x128", "type": "image/png", "purpose": "maskable" }
+  ]
+}

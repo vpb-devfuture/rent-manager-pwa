@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="auto">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Rent Manager" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon128.png" />
+  <title>Rent Manager — Quản lý nhà trọ</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/app.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="brand-mark">R</div>
+          <div>
+            <div class="brand-name">Rent Manager</div>
+            <div class="brand-sub" id="user-email">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">
+          <span>Nhà trọ</span>
+          <button class="btn-icon btn-icon-sm" id="add-house-btn" title="Tạo nhà trọ">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+        <div class="house-list" id="house-list"></div>
+      </div>
+
+      <div class="sidebar-bottom">
+        <button class="sidebar-btn" id="theme-toggle">
+          <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <span id="theme-label">Sáng</span>
+        </button>
+        <button class="sidebar-btn" id="sync-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M3 21v-5h5M21 3v5h-5"/></svg>
+          <span>Đồng bộ Drive</span>
+        </button>
+        <button class="sidebar-btn" id="signout-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          <span>Đăng xuất</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <div id="main-content"></div>
+    </main>
+  </div>
+
+  <!-- Sign-in overlay -->
+  <div id="signin-overlay" class="signin-overlay" style="display:none;">
+    <div class="signin-box">
+      <div class="brand-mark brand-mark-lg">R</div>
+      <h1>Rent Manager</h1>
+      <p>Quản lý nhà trọ, phòng, và tiền thuê hàng tháng. Dữ liệu lưu an toàn trên Google Drive của bạn.</p>
+      <button class="google-btn" id="signin-btn">
+        <svg width="16" height="16" viewBox="0 0 18 18">
+          <path fill="#4285f4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
+          <path fill="#34a853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+          <path fill="#fbbc05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#ea4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span id="signin-btn-label">Đăng nhập với Google</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="modal-root"></div>
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="config.local.js"></script>
+  <script type="module" src="bootstrap.js"></script>
+</body>
+</html>
