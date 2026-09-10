@@ -23,6 +23,10 @@ function shiftPeriod(p, d) {
 }
 // Hiển thị lùi 1 tháng so với period lưu trong dữ liệu (chỉ đổi hiển thị, không đổi logic/dữ liệu).
 function displayPeriod(p) { return /^\d{4}-\d{2}$/.test(p) ? shiftPeriod(p, -1) : p; }
+function roomTitle(room) {
+  const rep = (room?.representative || '').trim();
+  return escHtml(room?.code || '') + (rep ? ` (${escHtml(rep)})` : '');
+}
 function periodLabel(p) { const [y, m] = displayPeriod(p).split('-'); return `Tháng ${m}/${y}`; }
 function escHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, c =>
@@ -481,7 +485,7 @@ async function openRoomDetailModal(house, roomId, readings, payments, period) {
   const consumed = meter && prevMeter ? Math.max(0, meter.reading - prevMeter.reading) : null;
 
   openModal({
-    title: `Chi tiết · ${escHtml(room.code)} · ${periodLabel(period)}`,
+    title: `Chi tiết · ${roomTitle(room)} · ${periodLabel(period)}`,
     body: `
       <div class="detail-grid">
         <div class="detail-section">
