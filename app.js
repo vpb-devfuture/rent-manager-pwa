@@ -21,7 +21,9 @@ function shiftPeriod(p, d) {
   const dt = new Date(y, m - 1 + d, 1);
   return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}`;
 }
-function periodLabel(p) { const [y, m] = p.split('-'); return `Tháng ${m}/${y}`; }
+// Hiển thị lùi 1 tháng so với period lưu trong dữ liệu (chỉ đổi hiển thị, không đổi logic/dữ liệu).
+function displayPeriod(p) { return /^\d{4}-\d{2}$/.test(p) ? shiftPeriod(p, -1) : p; }
+function periodLabel(p) { const [y, m] = displayPeriod(p).split('-'); return `Tháng ${m}/${y}`; }
 function escHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, c =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -484,7 +486,7 @@ async function openRoomDetailModal(house, roomId, readings, payments, period) {
       <div class="detail-grid">
         <div class="detail-section">
           <div class="detail-section-title">⚡ Điện</div>
-          ${prevMeter ? `<div class="detail-row"><span>Tháng trước${prevMeter.synthetic ? ' (khởi đầu)' : ' (' + prevMeter.period + ')'}</span><span class="num">${prevMeter.reading}</span></div>` : `<div class="detail-row muted"><span>Tháng trước</span><span>—</span></div>`}
+          ${prevMeter ? `<div class="detail-row"><span>Tháng trước${prevMeter.synthetic ? ' (khởi đầu)' : ' (' + displayPeriod(prevMeter.period) + ')'}</span><span class="num">${prevMeter.reading}</span></div>` : `<div class="detail-row muted"><span>Tháng trước</span><span>—</span></div>`}
           ${meter ? `
             <div class="detail-row"><span>Tháng này</span><span class="num">${meter.reading}</span></div>
             <div class="detail-row"><span>Tiêu thụ</span><span class="num">${consumed ?? '?'} số</span></div>
@@ -647,7 +649,7 @@ async function openMeterRecordModal(house, room, allReadings, period) {
     onAction: async (act, close, root) => {
       if (act === 'close') return close();
       if (act === 'delete') {
-        if (!await confirmDialog('Xóa chỉ số', `Xóa chỉ số điện tháng ${period} của phòng ${room.code}?`, { ok: 'Xóa', danger: true })) return;
+        if (!await confirmDialog('Xóa chỉ số', `Xóa chỉ số điện ${periodLabel(period).toLowerCase()} của phòng ${room.code}?`, { ok: 'Xóa', danger: true })) return;
         if (existing?.imageFileId) await DriveStore.deleteFile(existing.imageFileId).catch(() => {});
         await Store.deleteMeterReading(room.id, period);
         toast('Đã xóa chỉ số', 'success');
@@ -1149,7 +1151,7 @@ async function openHistoryModal(room) {
           <div class="history-row is-header"><div>Tháng</div><div>Trạng thái</div><div style="text-align:right">Cần thu</div><div style="text-align:right">Đã thu</div></div>
           ${payments.map(p => `
             <div class="history-row">
-              <div class="history-period">${p.period}</div>
+              <div class="history-period">${displayPeriod(p.period)}</div>
               <div><span class="badge ${p.status === 'paid' ? 'badge-success' : p.status === 'skipped' ? 'badge-muted' : 'badge-warning'}">${p.status === 'paid' ? 'Đã thu' : p.status === 'skipped' ? 'Trống' : 'Chờ'}</span></div>
               <div class="num" style="text-align:right">${fmtVND(p.amountDue)}</div>
               <div class="num" style="text-align:right">${p.status === 'paid' ? fmtVND(p.amountPaid) : '—'}</div>
